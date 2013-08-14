@@ -5,7 +5,7 @@ A c++ application tracking Chilitags in a .avi video and logging their position 
 
 Dependencies
 -------------
-- Chilitags (https://github.com/chili-epfl/chilitag)
+- Chilitags (https://github.com/chili-epfl/chilitags)
 - OpenCV 2
 - libconfig++
 
