@@ -51,9 +51,7 @@ set(SOURCES
 link_directories(/usr/local/lib/)
 set (EXTRA_LIBS ${EXTRA_LIBS}
   chilitags
-  GL ftgl
   opencv_core opencv_highgui opencv_imgproc
-  boost_filesystem boost_system boost_regex
   config++
 )
 
