@@ -30,32 +30,40 @@ void VideoTracker::init() {
 	config.readFile(file.c_str());
 
 	// video files
-	Setting &videoFiles = config.lookup("files");
-	int nFiles = videoFiles.getLength();
-	for (int i = 0; i < nFiles; ++i) {
-		m_videoFiles.push_back(videoFiles[i]);
-	}
+        if (config.exists("files")) {
+            Setting &videoFiles = config.lookup("files");
+            int nFiles = videoFiles.getLength();
+            for (int i = 0; i < nFiles; ++i) {
+                    m_videoFiles.push_back(videoFiles[i]);
+            }
+        } else {
+            cout << "Configuration: no files set." << endl;
+        }
 
 	// tags
-	Setting &tags = config.lookup("tags");
-	int nGroups = tags.getLength();
-	for (int i = 0; i < nGroups; ++i) {
-		Setting &group = tags[i];
-		tagsData_t data(group["type"], group["family"]);
-		if (group.exists("id_range")) {
-			Setting &ids = group["id_range"];
-			for (int i = (int) ids[0]; i < (int) ids[1]; ++i) {
-				data.ids.push_back(i);
-			}
-		} else {
-			Setting &ids = group["ids"];
-			for (int i = 0; i < ids.getLength(); ++i) {
-				data.ids.push_back(ids[i]);
-			}
-		}
-		string type = group["type"];
-		m_tags.insert(make_pair(type, data));
-	}
+        if (config.exists("tags")) {
+            Setting &tags = config.lookup("tags");
+            int nGroups = tags.getLength();
+            for (int i = 0; i < nGroups; ++i) {
+                    Setting &group = tags[i];
+                    tagsData_t data(group["type"], group["family"]);
+                    if (group.exists("id_range")) {
+                            Setting &ids = group["id_range"];
+                            for (int i = (int) ids[0]; i < (int) ids[1]; ++i) {
+                                    data.ids.push_back(i);
+                            }
+                    } else {
+                            Setting &ids = group["ids"];
+                            for (int i = 0; i < ids.getLength(); ++i) {
+                                    data.ids.push_back(ids[i]);
+                            }
+                    }
+                    string type = group["type"];
+                    m_tags.insert(make_pair(type, data));
+            }
+        } else {
+            cout << "Configuration: no tags defined." << endl;
+        }
 }
 
 void VideoTracker::process() {
